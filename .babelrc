@@ -9,7 +9,12 @@
         }
       }
     ],
-    "@babel/preset-react"
+    [
+      "@babel/preset-react",
+      {
+        "loose": true
+      }
+    ]
   ],
   "plugins": [
     "@babel/plugin-transform-template-literals",
