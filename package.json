@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/mvmmarcus/react-trello",
   "dependencies": {
+    "@babel/plugin-syntax-jsx": "^7.12.1",
     "autosize": "^4.0.2",
     "classnames": "^2.2.6",
     "immutability-helper": "^2.8.1",
