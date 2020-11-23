@@ -49,7 +49,7 @@ class Lane extends Component {
   sortCards(cards, sortFunction) {
     if (!cards) return []
     if (!sortFunction) return cards
-    return cards.concat().sort(function(card1, card2) {
+    return cards.concat().sort(function (card1, card2) {
       return sortFunction(card1, card2)
     })
   }
@@ -217,7 +217,7 @@ class Lane extends Component {
     this.props.onLaneUpdate(this.props.id, {title: value})
   }
 
-  renderHeader = (pickedProps) => {
+  renderHeader = pickedProps => {
     const {components} = this.props
     return (
       <components.LaneHeader
@@ -319,7 +319,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(laneActions, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Lane)
+export default connect(null, mapDispatchToProps)(Lane)

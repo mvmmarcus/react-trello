@@ -4,6 +4,8 @@
       "id": "PLANNED",
       "title": "Planned Tasks",
       "label": "20/70",
+      "allowDrag": false,
+      "droppable": false,
       "cards": [
         {
           "id": "Milk",

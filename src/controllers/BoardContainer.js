@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import pick from 'lodash/pick'
 import isEqual from 'lodash/isEqual'
 import Lane from './Lane'
-import { PopoverWrapper } from 'react-popopo'
+import {PopoverWrapper} from 'react-popopo'
 
 import * as boardActions from 'rt/actions/BoardActions'
 import * as laneActions from 'rt/actions/LaneActions'
@@ -43,10 +43,23 @@ class BoardContainer extends Component {
   }
 
   onLaneDrop = ({removedIndex, addedIndex, payload}) => {
-    const {actions, handleLaneDragEnd} = this.props
-    if (removedIndex !== addedIndex) {
-      actions.moveLane({oldIndex: removedIndex, newIndex: addedIndex})
-      handleLaneDragEnd(removedIndex, addedIndex, payload)
+    const {actions, handleLaneDragEnd, reducerData} = this.props
+    let drop = false
+
+    reducerData.lanes.map((lane, index) => {
+      if (index == addedIndex) {
+        if (lane.allowDrag !== false) {
+          drop = true
+          return
+        }
+      }
+    })
+
+    if (drop) {
+      if (removedIndex !== addedIndex) {
+        actions.moveLane({oldIndex: removedIndex, newIndex: addedIndex})
+        handleLaneDragEnd(removedIndex, addedIndex, payload)
+      }
     }
   }
   getCardDetails = (laneId, cardIndex) => {
@@ -176,7 +189,7 @@ class BoardContainer extends Component {
             getChildPayload={index => this.getLaneDetails(index)}
             groupName={this.groupName}>
             {reducerData.lanes.map((lane, index) => {
-              const {id, droppable, ...otherProps} = lane
+              const {id, droppable, allowDrag, ...otherProps} = lane
               const laneToRender = (
                 <Lane
                   key={id}
@@ -194,14 +207,20 @@ class BoardContainer extends Component {
                   {...passthroughProps}
                 />
               )
-              return draggable && laneDraggable ? <Draggable key={lane.id}>{laneToRender}</Draggable> : laneToRender
+              return draggable && laneDraggable && (allowDrag === undefined ? true : allowDrag) ? (
+                <Draggable key={lane.id}>{laneToRender}</Draggable>
+              ) : (
+                laneToRender
+              )
             })}
           </Container>
         </PopoverWrapper>
         {canAddLanes && (
           <Container orientation="horizontal">
-            {editable && !addLaneMode ? <components.NewLaneSection t={t} onClick={this.showEditableLane} /> : (
-              addLaneMode && <components.NewLaneForm onCancel={this.hideEditableLane} onAdd={this.addNewLane} t={t}/>
+            {editable && !addLaneMode ? (
+              <components.NewLaneSection t={t} onClick={this.showEditableLane} />
+            ) : (
+              addLaneMode && <components.NewLaneForm onCancel={this.hideEditableLane} onAdd={this.addNewLane} t={t} />
             )}
           </Container>
         )}
@@ -245,11 +264,11 @@ BoardContainer.propTypes = {
   laneDragClass: PropTypes.string,
   laneDropClass: PropTypes.string,
   onCardMoveAcrossLanes: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 }
 
 BoardContainer.defaultProps = {
-  t: v=>v,
+  t: v => v,
   onDataChange: () => {},
   handleDragStart: () => {},
   handleDragEnd: () => {},
@@ -277,7 +296,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({actions: bindActionCreators({...boardActions, ...laneActions}, dispatch)})
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BoardContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(BoardContainer)
