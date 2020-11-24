@@ -176,12 +176,15 @@ class Lane extends Component {
           {...card}
         />
       )
+     
       return cardDraggable && (!card.hasOwnProperty('draggable') || card.draggable) ? (
-        <Draggable key={card.id}>{cardToRender}</Draggable>
+        <Draggable key={card.id}>{cards.length ? cardToRender :  }</Draggable>
       ) : (
         <span key={card.id}>{cardToRender}</span>
       )
     })
+    console.log("CardList: ", cardList)
+    console.log("Cards: ", cards)
 
     return (
       <components.ScrollableLane ref={this.laneDidMount} isDraggingOver={isDraggingOver}>
@@ -196,7 +199,7 @@ class Lane extends Component {
           onDragLeave={() => this.setState({isDraggingOver: false})}
           shouldAcceptDrop={this.shouldAcceptDrop}
           getChildPayload={index => this.props.getCardDetails(id, index)}>
-          {cardList}
+          {cardList.length > 0 ? cardList : () => <components.WithoutDataCard /> }
         </Container>
         {editable && !addCardMode && <components.AddCardLink onClick={this.showEditableCard} t={t} />}
         {addCardMode && (

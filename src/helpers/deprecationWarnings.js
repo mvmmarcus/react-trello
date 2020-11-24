@@ -5,6 +5,7 @@ const REPLACE_TABLE = {
   newCardTemplate: 'components.NewCardForm',
   children: 'components.Card',
   customCardLayout: 'components.Card',
+  customWithoutDataCardLayout: 'components.WithoutDataCard'
   addLaneTitle: '`t` function with key "Add another lane"',
   addCardLink: '`t` function with key "Click to add card"',
 }
