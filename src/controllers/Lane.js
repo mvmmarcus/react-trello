@@ -49,7 +49,7 @@ class Lane extends Component {
   sortCards(cards, sortFunction) {
     if (!cards) return []
     if (!sortFunction) return cards
-    return cards.concat().sort(function (card1, card2) {
+    return cards.concat().sort(function(card1, card2) {
       return sortFunction(card1, card2)
     })
   }
@@ -176,15 +176,15 @@ class Lane extends Component {
           {...card}
         />
       )
-     
+
       return cardDraggable && (!card.hasOwnProperty('draggable') || card.draggable) ? (
-        <Draggable key={card.id}>{cards.length ? cardToRender :  }</Draggable>
+        <Draggable key={card.id}>{cardToRender}</Draggable>
       ) : (
         <span key={card.id}>{cardToRender}</span>
       )
     })
-    console.log("CardList: ", cardList)
-    console.log("Cards: ", cards)
+    console.log('CardList: ', cardList)
+    console.log('Cards: ', cards)
 
     return (
       <components.ScrollableLane ref={this.laneDidMount} isDraggingOver={isDraggingOver}>
@@ -199,7 +199,7 @@ class Lane extends Component {
           onDragLeave={() => this.setState({isDraggingOver: false})}
           shouldAcceptDrop={this.shouldAcceptDrop}
           getChildPayload={index => this.props.getCardDetails(id, index)}>
-          {cardList.length > 0 ? cardList : () => <components.WithoutDataCard /> }
+          {cardList.length > 0 ? cardList : () => <components.WithoutDataCard />}
         </Container>
         {editable && !addCardMode && <components.AddCardLink onClick={this.showEditableCard} t={t} />}
         {addCardMode && (
@@ -322,4 +322,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(laneActions, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(Lane)
+export default connect(
+  null,
+  mapDispatchToProps
+)(Lane)
