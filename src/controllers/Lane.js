@@ -185,24 +185,20 @@ class Lane extends Component {
     })
 
     return (
-      <components.ScrollableLane ref={this.laneDidMount} isDraggingOver={isDraggingOver}>
-        {cardList.length > 0 ? (
-          <Container
-            orientation="vertical"
-            groupName={this.groupName}
-            dragClass={cardDragClass}
-            dropClass={cardDropClass}
-            onDragStart={this.onDragStart}
-            onDrop={e => this.onDragEnd(id, e)}
-            onDragEnter={() => this.setState({isDraggingOver: true})}
-            onDragLeave={() => this.setState({isDraggingOver: false})}
-            shouldAcceptDrop={this.shouldAcceptDrop}
-            getChildPayload={index => this.props.getCardDetails(id, index)}>
-            {cardList}
-          </Container>
-        ) : (
-          <components.WithoutDataCard />
-        )}
+      <components.ScrollableLane ref={this.laneDidMount} isDraggingOver={cardList.length > 0 ? isDraggingOver : false}>
+        <Container
+          orientation="vertical"
+          groupName={this.groupName}
+          dragClass={cardDragClass}
+          dropClass={cardDropClass}
+          onDragStart={this.onDragStart}
+          onDrop={e => this.onDragEnd(id, e)}
+          onDragEnter={() => this.setState({isDraggingOver: true})}
+          onDragLeave={() => this.setState({isDraggingOver: false})}
+          shouldAcceptDrop={this.shouldAcceptDrop}
+          getChildPayload={index => this.props.getCardDetails(id, index)}>
+          {cardList.length > 0 ? cardList : <components.WithoutDataCard />}
+        </Container>
 
         {editable && !addCardMode && <components.AddCardLink onClick={this.showEditableCard} t={t} />}
         {addCardMode && (
