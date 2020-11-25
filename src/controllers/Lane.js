@@ -256,7 +256,7 @@ class Lane extends Component {
     } = this.props
     const allClassNames = classNames('react-trello-lane', this.props.className || '')
     const showFooter = collapsibleLanes && cards.length > 0
-    return cards.length ? (
+    return (
       <components.Section
         {...otherProps}
         key={id}
@@ -268,8 +268,6 @@ class Lane extends Component {
         {loading && <components.Loader />}
         {showFooter && <components.LaneFooter onClick={this.toggleLaneCollapsed} collapsed={collapsed} />}
       </components.Section>
-    ) : (
-      <div>testando...</div>
     )
   }
 }
