@@ -185,7 +185,7 @@ class Lane extends Component {
     })
 
     return (
-      <components.ScrollableLane ref={this.laneDidMount} isDraggingOver={cardList.length > 0 ? isDraggingOver : false}>
+      <components.ScrollableLane ref={this.laneDidMount} isDraggingOver={isDraggingOver}>
         <Container
           orientation="vertical"
           groupName={this.groupName}
