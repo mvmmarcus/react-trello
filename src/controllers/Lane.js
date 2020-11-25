@@ -199,7 +199,7 @@ class Lane extends Component {
           onDragLeave={() => this.setState({isDraggingOver: false})}
           shouldAcceptDrop={this.shouldAcceptDrop}
           getChildPayload={index => this.props.getCardDetails(id, index)}>
-          {cardList.length > 0 ? cardList : () => <components.WithoutDataCard />}
+          {cardList.length > 0 ? cardList : <components.WithoutDataCard />}
         </Container>
         {editable && !addCardMode && <components.AddCardLink onClick={this.showEditableCard} t={t} />}
         {addCardMode && (
@@ -256,7 +256,7 @@ class Lane extends Component {
     } = this.props
     const allClassNames = classNames('react-trello-lane', this.props.className || '')
     const showFooter = collapsibleLanes && cards.length > 0
-    return (
+    return cards.length ? (
       <components.Section
         {...otherProps}
         key={id}
@@ -268,6 +268,8 @@ class Lane extends Component {
         {loading && <components.Loader />}
         {showFooter && <components.LaneFooter onClick={this.toggleLaneCollapsed} collapsed={collapsed} />}
       </components.Section>
+    ) : (
+      <div>testando...</div>
     )
   }
 }
